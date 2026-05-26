@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination Results - 2026</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 10px; /* Reduced padding for mobile */
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%; /* Responsive width */
+            max-width: 850px; /* Maximum width for desktop */
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header-bg {
+            background: linear-gradient(to bottom, #b5d4f1 0%, #e2eff9 50%, #ffffff 100%);
+            border-top: 4px solid #79addc;
+            border-bottom: 2px solid #79addc;
+            padding: 15px 5px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .header-title-1 {
+            font-family: "Times New Roman", Times, serif;
+            color: #003399;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            letter-spacing: 1px;
+        }
+
+        .header-title-2 {
+            font-family: "Times New Roman", Times, serif;
+            color: #8b0000;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+
+        .header-title-3 {
+            font-family: "Times New Roman", Times, serif;
+            color: #000080;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+
+        .header-dates {
+            font-size: 11px;
+            color: #333;
+            margin: 0;
+        }
+
+        .check-btn-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .check-btn {
+            background-color: #ffebd1;
+            border: 1px solid #dca779;
+            color: #804000;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 15px;
+            display: inline-block;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .info-header {
+            background-color: #cce0f5;
+            color: #000080;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #85b5e3;
+            margin-bottom: 10px;
+        }
+
+        .candidate-info {
+            display: grid;
+            grid-template-columns: 180px 10px auto;
+            row-gap: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #000066;
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        
+        .candidate-info div:nth-child(3n) {
+            color: #000;
+        }
+
+        .result-text {
+            color: #8b0000 !important;
+        }
+
+        /* Makes tables scrollable on very small screens instead of breaking layout */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            min-width: 600px; /* Prevents columns from completely collapsing */
+        }
+
+        th, td {
+            border: 1px solid #6ba5d6;
+            padding: 4px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #cde0f5;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .blue-text { color: #000080; font-weight: bold; }
+        .red-text { color: #8b0000; font-weight: bold; }
+        .dark-blue-text { color: #000080; }
+
+        .subject-col {
+            text-align: left;
+            font-weight: bold;
+            padding-left: 8px;
+        }
+
+        .abbreviations {
+            background-color: #cce0f5;
+            border: 1px solid #6ba5d6;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #003366;
+            font-weight: bold;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .grade-range-table td {
+            text-align: left;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+        
+        .grade-range-table th {
+            padding: 3px;
+        }
+
+        .grade-col {
+            width: 25px;
+            text-align: center !important;
+            font-weight: bold;
+        }
+
+        .footer-banner {
+            background: linear-gradient(to top, #b5d4f1 0%, #e2eff9 50%, #ffffff 100%);
+            border-top: 1px solid #79addc;
+            border-bottom: 4px solid #79addc;
+            text-align: center;
+            padding: 10px;
+            font-size: 11px;
+            color: #000080;
+            margin-top: 15px;
+        }
+
+        .disclaimer {
+            font-size: 10px;
+            color: #8b0000;
+            text-align: justify;
+            margin-top: 10px;
+            line-height: 1.3;
+        }
+
+        .download-btn-wrapper {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .download-btn {
+            background-color: #003399;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #001e5e;
+        }
+
+        /* Responsive adjustments for Mobile */
+        @media screen and (max-width: 768px) {
+            .container { padding: 10px; }
+            .header-title-1 { font-size: 15px; }
+            .header-title-2 { font-size: 16px; }
+            .header-title-3 { font-size: 14px; }
+            .header-dates { font-size: 9px; }
+            .candidate-info {
+                grid-template-columns: 130px 10px auto;
+                font-size: 11px;
+                padding-left: 5px;
+            }
+            .info-header { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="result-container">
+    <div class="header-bg">
+        <h1 class="header-title-1">GOVERNMENT OF KERALA</h1>
+        <h2 class="header-title-2">Directorate of Higher Secondary Education</h2>
+        <h3 class="header-title-3">Examination Results - 2026</h3>
+        <p class="header-dates">Results announced on 26.05.2026, Date updated on 26.05.2026</p>
+    </div>
+
+    <div class="check-btn-container">
+        <div class="check-btn">CHECK ANOTHER RESULT</div>
+    </div>
+
+    <div class="info-header">
+        March 2026 Examination(New Scheme) - Register No : 2577120
+    </div>
+
+    <div class="candidate-info">
+        <div>Name of the Candidate</div><div>:</div><div>MUHAMMED ZAYYAN VP</div>
+        <div>Date of birth</div><div>:</div><div>27-01-2008</div>
+        <div>Father's Name</div><div>:</div><div>MUHAMMED SADIQUE VP</div>
+        <div>Mother's Name</div><div>:</div><div>AMMENA K</div>
+        <div>Group Name</div><div>:</div><div>HUMANITIES</div>
+        <div>Result</div><div>:</div><div class="result-text">Eligible for Higher Studies</div>
+        <div>Grace</div><div>:</div><div></div>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">SUBJECTS</th>
+                    <th colspan="3">FIRST YEAR</th>
+                    <th colspan="4">SECOND YEAR</th>
+                    <th colspan="4">GRAND TOTAL</th>
+                    <th rowspan="2">GRADE<br>OBTAINED</th>
+                </tr>
+                <tr>
+                    <th>CE</th>
+                    <th>TE</th>
+                    <th>TOTAL</th>
+                    <th>CE</th>
+                    <th>PE</th>
+                    <th>TE</th>
+                    <th>TOTAL</th>
+                    <th>CE</th>
+                    <th>PE</th>
+                    <th>TE</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="subject-col dark-blue-text">ENGLISH</td>
+                    <td>20</td>
+                    <td>55</td>
+                    <td class="blue-text">75</td>
+                    <td>20</td>
+                    <td>--</td>
+                    <td>55</td>
+                    <td class="blue-text">75</td>
+                    <td>40</td>
+                    <td>--</td>
+                    <td>110</td>
+                    <td class="blue-text">150</td>
+                    <td class="blue-text">B+</td>
+                </tr>
+                <tr>
+                    <td class="subject-col dark-blue-text">POLITICAL<br>SCIENCE</td>
+                    <td>20</td>
+                    <td>52</td>
+                    <td class="blue-text">72</td>
+                    <td>20</td>
+                    <td>--</td>
+                    <td>53</td>
+                    <td class="blue-text">73</td>
+                    <td>40</td>
+                    <td>--</td>
+                    <td>105</td>
+                    <td class="blue-text">145</td>
+                    <td class="blue-text">B+</td>
+                </tr>
+                <tr>
+                    <td class="subject-col dark-blue-text">HISTORY</td>
+                    <td>20</td>
+                    <td>25</td>
+                    <td class="blue-text">45</td>
+                    <td>20</td>
+                    <td>--</td>
+                    <td>25</td>
+                    <td class="blue-text">45</td>
+                    <td>40</td>
+                    <td>--</td>
+                    <td>50</td>
+                    <td class="blue-text">90</td>
+                    <td class="blue-text">C</td>
+                </tr>
+                <tr>
+                    <td class="subject-col dark-blue-text">ECONOMICS</td>
+                    <td>20</td>
+                    <td>45</td>
+                    <td class="blue-text">65</td>
+                    <td>20</td>
+                    <td>--</td>
+                    <td>45</td>
+                    <td class="blue-text">65</td>
+                    <td>40</td>
+                    <td>--</td>
+                    <td>90</td>
+                    <td class="blue-text">130</td>
+                    <td class="blue-text">B</td>
+                </tr>
+                <tr>
+                    <td class="subject-col dark-blue-text">MALAYALAM</td>
+                    <td>20</td>
+                    <td>65</td>
+                    <td class="blue-text">85</td>
+                    <td>20</td>
+                    <td>--</td>
+                    <td>65</td>
+                    <td class="blue-text">85</td>
+                    <td>40</td>
+                    <td>--</td>
+                    <td>130</td>
+                    <td class="blue-text">170</td>
+                    <td class="blue-text">A</td>
+                </tr>
+                <tr>
+                    <td class="subject-col dark-blue-text">SOCIAL WORK</td>
+                    <td>20</td>
+                    <td>40</td>
+                    <td class="blue-text">60</td>
+                    <td>20</td>
+                    <td>40</td>
+                    <td>38</td>
+                    <td class="blue-text">98</td>
+                    <td>40</td>
+                    <td>40</td>
+                    <td>78</td>
+                    <td class="blue-text">158</td>
+                    <td class="blue-text">B+</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive" style="margin-bottom: 0;">
+        <div class="abbreviations">
+            Abbreviations:CE-Continuous Evaluation,TE-Terminal Evaluation,PE-Practical Evaluation
+        </div>
+        
+        <table class="grade-range-table" style="margin-bottom: 0; border-top: none;">
+            <thead>
+                <tr>
+                    <th colspan="4">Grade Range</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="grade-col">A+</td>
+                    <td>Grand Total Score 180-200</td>
+                    <td class="grade-col">C+</td>
+                    <td>Grand Total Score 100-119 with TE Score Greater Than or Equal To 30% of TE Maximum</td>
+                </tr>
+                <tr>
+                    <td class="grade-col">A</td>
+                    <td>Grand Total Score 160-179</td>
+                    <td class="grade-col">C</td>
+                    <td>Grand Total Score 80-99 with TE Score Greater Than or Equal To 30% of TE Maximum</td>
+                </tr>
+                <tr>
+                    <td class="grade-col">B+</td>
+                    <td>Grand Total Score 140-159</td>
+                    <td class="grade-col">D+</td>
+                    <td>Grand Total Score 60-79 with TE Score Greater Than or Equal To 30% of TE Maximum</td>
+                </tr>
+                <tr>
+                    <td class="grade-col">B</td>
+                    <td>Grand Total Score 120-139</td>
+                    <td class="grade-col">D</td>
+                    <td>Grand Total Score 40-59 or TE Score below 30% of TE Maximum</td>
+                </tr>
+                <tr>
+                    <td class="grade-col"></td>
+                    <td></td>
+                    <td class="grade-col">E</td>
+                    <td>Grand Total Score Below 40</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="margin-top: -1px;">
+            <thead>
+                <tr>
+                    <th colspan="11">Maximum Scores</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">SUBJECTS</th>
+                    <th colspan="3">FIRST YEAR</th>
+                    <th colspan="4">SECOND YEAR</th>
+                    <th colspan="3">GRAND TOTAL</th>
+                </tr>
+                <tr>
+                    <th>CE</th>
+                    <th>TE</th>
+                    <th>Total</th>
+                    <th>CE</th>
+                    <th>PE</th>
+                    <th>TE</th>
+                    <th>Total</th>
+                    <th>CE</th>
+                    <th>PE</th>
+                    <th>TE</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="subject-col">Sub without Practical</td>
+                    <td>20</td>
+                    <td>80</td>
+                    <td>100</td>
+                    <td>20</td>
+                    <td></td>
+                    <td>80</td>
+                    <td>100</td>
+                    <td>40</td>
+                    <td></td>
+                    <td>160</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td class="subject-col">For Music</td>
+                    <td>20</td>
+                    <td>40</td>
+                    <td>60</td>
+                    <td>20</td>
+                    <td>80</td>
+                    <td>40</td>
+                    <td>140</td>
+                    <td>40</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td class="subject-col">Sub with Practical</td>
+                    <td>20</td>
+                    <td>60</td>
+                    <td>80</td>
+                    <td>20</td>
+                    <td>40</td>
+                    <td>60</td>
+                    <td>120</td>
+                    <td>40</td>
+                    <td>40</td>
+                    <td>120</td>
+                    <td>200</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer-banner">
+        Data Provided By Directorate of Higher Secondary Education, Kerala.<br>
+        IT Support by National Informatics Centre, Kerala State Centre.
+    </div>
+
+    <div class="disclaimer">
+        <u>Disclaimer</u> : Neither NIC nor Directorate of Higher Secondary Education is responsible for any inadvertent error that may have crept in the results being published on net. The results published on net are for immediate information to the examinees. These cannot be treated as original mark sheets. Original mark sheets will be issued by the Directorate of Higher Secondary Education separately.
+    </div>
+
+</div>
+
+<div class="download-btn-wrapper" id="download-wrapper">
+    <button class="download-btn" onclick="downloadAsImage()">Download as Image</button>
+</div>
+
+<script>
+    function downloadAsImage() {
+        const container = document.getElementById('result-container');
+        const btnWrapper = document.getElementById('download-wrapper');
+        
+        // Hide the button while taking the screenshot
+        btnWrapper.style.display = 'none';
+        
+        // Generate the image, forcing desktop width for high-quality export
+        html2canvas(container, {
+            scale: 2, 
+            useCORS: true, 
+            backgroundColor: "#f4f4f4",
+            windowWidth: 850, // Forces the capture to behave like it's on a desktop screen
+            width: 850 // Hardcodes the captured width so it never takes the squished mobile view
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Examination_Results_2026.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // Restore the download button
+            btnWrapper.style.display = 'block';
+        });
+    }
+</script>
+
+</body>
+</html>
